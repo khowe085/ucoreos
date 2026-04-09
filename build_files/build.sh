@@ -21,4 +21,34 @@ dnf5 install -y tmux
 
 #### Example for enabling a System Unit File
 
+### Tailscale
+systemctl enable tailscaled.service
+
+### Podman
 systemctl enable podman.socket
+systemctl enable podman-restart.service
+systemctl enable podman.socket --global
+loginctl enable-linger core
+
+### Podman Compose services
+for dir in /etc/containers/compose/*/; do
+    name=$(basename "$dir")
+    cat > "/usr/lib/systemd/system/podman-compose-${name}.service" <<EOF
+[Unit]
+Description=Podman Compose - ${name}
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/etc/containers/compose/${name}
+ExecStart=/usr/bin/podman-compose up -d
+ExecStop=/usr/bin/podman-compose down
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target
+EOF
+    systemctl enable "podman-compose-${name}.service"
+done
