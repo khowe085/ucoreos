@@ -28,7 +28,9 @@ systemctl enable tailscaled.service
 systemctl enable podman.socket
 systemctl enable podman-restart.service
 systemctl enable podman.socket --global
-loginctl enable-linger core
+
+mkdir -p /var/lib/systemd/linger
+touch /var/lib/systemd/linger/core
 
 ### Podman Compose services
 for dir in /etc/containers/compose/*/; do
