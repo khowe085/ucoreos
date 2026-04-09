@@ -29,7 +29,7 @@ FROM ghcr.io/ublue-os/ucore-minimal:lts
 ## make modifications desired in your image and install packages by modifying the build.sh script
 ## the following RUN directive does all the things required to run "build.sh" as recommended.
 
-COPY podman /etc/containers/compose
+COPY build_files/podman /etc/containers/compose
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
