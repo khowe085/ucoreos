@@ -17,8 +17,6 @@ services:
       DB_MYSQL_USER: "npm"
       DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       DB_MYSQL_NAME: "npm"
-    env_file:
-      - /var/containers/env/nginx-proxy-manager.env
     depends_on:
       - db
 

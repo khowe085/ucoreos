@@ -38,9 +38,9 @@ touch /var/lib/systemd/linger/core
 ### Podman Compose services
 for dir in /etc/containers/compose/*/; do
     name=$(basename "$dir")
-    cat > "/usr/lib/systemd/system/podman-compose-${name}.service" <<EOF
+    cat > "/usr/lib/systemd/system/${name}.service" <<EOF
 [Unit]
-Description=Podman Compose - ${name}
+Description=${name} (Podman)
 After=network-online.target
 Wants=network-online.target
 
@@ -56,5 +56,5 @@ TimeoutStartSec=0
 [Install]
 WantedBy=multi-user.target
 EOF
-    systemctl enable "podman-compose-${name}.service"
+    systemctl enable "${name}.service"
 done
