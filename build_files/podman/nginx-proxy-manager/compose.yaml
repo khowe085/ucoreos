@@ -10,13 +10,6 @@ services:
     volumes:
       - npm_data:/data
       - npm_letsencrypt:/etc/letsencrypt
-    environment:
-      TZ: ${TZ:-America/New_York}
-      DB_MYSQL_HOST: "db"
-      DB_MYSQL_PORT: 3306
-      DB_MYSQL_USER: "npm"
-      DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      DB_MYSQL_NAME: "npm"
     depends_on:
       - db
 
@@ -24,12 +17,6 @@ services:
     image: docker.io/library/mariadb:10.11
     container_name: nginx-proxy-manager-db
     restart: unless-stopped
-    environment:
-      TZ: ${TZ:-America/New_York}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: "npm"
-      MYSQL_USER: "npm"
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - npm_mysql:/var/lib/mysql
 
