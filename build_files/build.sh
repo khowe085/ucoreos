@@ -47,6 +47,7 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 RemainAfterExit=yes
+EnvironmentFile=-/var/containers/env/${name}.env
 WorkingDirectory=/etc/containers/compose/${name}
 ExecStart=/usr/bin/podman-compose up -d
 ExecStop=/usr/bin/podman-compose down
