@@ -24,7 +24,7 @@ services:
 
   db:
     image: docker.io/library/mariadb:10.11
-    container_name: npm-db
+    container_name: nginx-proxy-manager-db
     restart: unless-stopped
     environment:
       TZ: ${TZ:-America/New_York}
