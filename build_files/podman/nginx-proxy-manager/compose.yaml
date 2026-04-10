@@ -3,8 +3,6 @@ services:
     image: docker.io/jc21/nginx-proxy-manager:latest
     container_name: nginx-proxy-manager
     restart: unless-stopped
-    env_file:
-      - /var/containers/env/nginx-proxy-manager.env
     ports:
       - "80:80"
       - "443:443"
@@ -19,6 +17,8 @@ services:
       DB_MYSQL_USER: "npm"
       DB_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       DB_MYSQL_NAME: "npm"
+    env_file:
+      - /var/containers/env/nginx-proxy-manager.env
     depends_on:
       - db
 
