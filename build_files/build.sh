@@ -21,9 +21,10 @@ dnf5 install -y tmux
 
 #### Example for enabling a System Unit File
 
+systemctl enable tuned
 systemctl enable tailscaled.service
 systemctl enable cockpit
-systemctl enable netavark-firewalld-reload.service
+systemctl enable netavark-firewalld-reload
 
 ### Podman
 systemctl enable podman.socket
