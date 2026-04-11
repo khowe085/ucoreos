@@ -1,6 +1,7 @@
 services:
   app:
     image: 'jc21/nginx-proxy-manager:latest'
+    container_name: nginx-proxy-manager
     restart: unless-stopped
     ports:
       # These ports are in format <host-port>:<container-port>
@@ -11,6 +12,12 @@ services:
       # - '21:21' # FTP
     env_file:
       - /var/containers/env/nginx-proxy-manager.env
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:81"]
+      interval: 5s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
     volumes:
       - npm_data:/data
       - npm_letsencrypt:/etc/letsencrypt
@@ -19,8 +26,14 @@ services:
 
   db:
     image: postgres:17
+    container_name: nginx-proxy-manager-db
     env_file:
-      - /var/containers/env/nginx-proxy-manager.env    
+      - /var/containers/env/nginx-proxy-manager.env   
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U npm -d npm"]
+      interval: 5s
+      timeout: 5s
+      retries: 5       
     volumes:
       - npm_db:/var/lib/postgresql
 
