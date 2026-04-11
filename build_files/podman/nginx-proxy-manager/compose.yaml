@@ -16,15 +16,15 @@ services:
       - db
 
   db:
-    image: docker.io/library/mariadb:10.11
-    container_name: nginx-proxy-manager-db
-    restart: unless-stopped
-    env_file:
-      - /var/containers/env/nginx-proxy-manager.env
+    image: postgres:17
+    environment:
+      POSTGRES_USER: 'npm'
+      POSTGRES_PASSWORD: 'npmpass'
+      POSTGRES_DB: 'npm'
     volumes:
-      - npm_mysql:/var/lib/mysql
+      - npm_db:/var/lib/postgresql
 
 volumes:
   npm_data:
   npm_letsencrypt:
-  npm_mysql:
+  npm_db:
