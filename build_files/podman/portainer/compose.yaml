@@ -1,22 +1,15 @@
 services:
   portainer:
-    image: portainer/portainer-ce:latest
+    image: portainer/portainer-ce:lts
     container_name: portainer
     restart: always
+    privileged: true
     ports:
-      - "9000:9000"
+      - "8000:8000"
       - "9443:9443"
-    environment:
-      - TZ=America/New_York
     volumes:
       - /run/podman/podman.sock:/var/run/docker.sock
       - portainer_data:/data
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 30s
 
 volumes:
   portainer_data:
