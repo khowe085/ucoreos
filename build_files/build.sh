@@ -39,6 +39,7 @@ touch /var/lib/systemd/linger/core
 for dir in /etc/containers/compose/*/; do
     
     name=$(basename "$dir")
+    mkdir -p /etc/containers/compose
     
     ln -sf "/usr/share/podman-compose/${name}" "/etc/containers/compose/${name}"
     
