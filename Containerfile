@@ -31,9 +31,9 @@ FROM ghcr.io/ublue-os/ucore-minimal:lts
 
 COPY build_files/podman /usr/share/podman-compose
 
-RUN rm -rf /etc/containers/compose
-
-RUN ln -sf /usr/share/podman-compose /etc/containers/compose
+# Containers that should be immutable
+RUN ln -sf /usr/share/podman-compose/portainer /etc/containers/compose/portainer
+RUN ln -sf /usr/share/podman-compose/nginx-proxy-manager /etc/containers/compose/nginx-proxy-manager
 
 RUN --mount=type=bind,from=ctx,source=/,target=/ctx \
     --mount=type=cache,dst=/var/cache \
