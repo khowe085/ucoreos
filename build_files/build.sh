@@ -36,7 +36,7 @@ mkdir -p /var/lib/systemd/linger
 touch /var/lib/systemd/linger/core
 
 ### Podman Compose services
-for dir in /etc/containers/compose/*/; do
+for dir in /usr/share/podman-compose/*/; do
     
     name=$(basename "$dir")
     mkdir -p /etc/containers/compose
