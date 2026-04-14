@@ -21,10 +21,31 @@ dnf5 install -y tmux tree
 
 #### Example for enabling a System Unit File
 
-systemctl enable tuned
+### Tailscale
 systemctl enable tailscaled.service
-systemctl enable cockpit
-systemctl enable netavark-firewalld-reload
+cat > /usr/lib/sysctl.d/99-tailscale.conf <<EOF
+net.ipv4.ip_forward = 1
+net.ipv6.conf.all.forwarding = 1
+EOF
+
+cat > /usr/lib/systemd/system/tailscale-firewall-setup.service <<EOF
+[Unit]
+Description=Tailscale firewall masquerade setup
+ConditionPathExists=!/var/lib/tailscale/firewall-setup.done
+After=firewalld.service tailscaled.service
+Wants=firewalld.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/firewall-cmd --permanent --add-masquerade
+ExecStart=/usr/bin/firewall-cmd --reload
+ExecStart=/usr/bin/touch /var/lib/tailscale/firewall-setup.done
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+systemctl enable tailscale-firewall-setup.service
 
 ### Podman
 systemctl enable podman.socket
@@ -32,6 +53,11 @@ systemctl enable podman-clean-transient
 systemctl enable podman-restart.service
 systemctl enable podman.socket --global
 
+systemctl enable tuned
+systemctl enable cockpit
+systemctl enable netavark-firewalld-reload
+
+mkdir -p /etc/containers/compose
 mkdir -p /var/lib/systemd/linger
 touch /var/lib/systemd/linger/core
 
@@ -39,7 +65,6 @@ touch /var/lib/systemd/linger/core
 for dir in /usr/share/podman-compose/*/; do
     
     name=$(basename "$dir")
-    mkdir -p /etc/containers/compose
     
     ln -sf "/usr/share/podman-compose/${name}" "/etc/containers/compose/${name}"
     
