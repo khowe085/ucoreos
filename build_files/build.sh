@@ -37,7 +37,11 @@ touch /var/lib/systemd/linger/core
 
 ### Podman Compose services
 for dir in /etc/containers/compose/*/; do
+    
     name=$(basename "$dir")
+    
+    ln -sf "/usr/share/podman-compose/${name}" "/etc/containers/compose/${name}"
+    
     cat > "/usr/lib/systemd/system/${name}.service" <<EOF
 [Unit]
 Description=${name} (Podman)
