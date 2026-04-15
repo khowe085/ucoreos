@@ -58,7 +58,6 @@ systemctl enable cockpit
 systemctl enable netavark-firewalld-reload
 
 mkdir -p /etc/containers/compose
-mkdir -p /var/lib/systemd/linger
 
 ### Podman Compose services
 for dir in /usr/share/podman-compose/*/; do
