@@ -17,7 +17,7 @@ services:
       interval: 5s
       timeout: 10s
       retries: 3
-      start_period: 5s
+      start_period: 30s
     volumes:
       - npm_data:/data
       - npm_letsencrypt:/etc/letsencrypt
@@ -35,7 +35,7 @@ services:
       timeout: 5s
       retries: 5       
     volumes:
-      - npm_db:/var/lib/postgresql
+      - npm_db:/var/lib/postgresql/data
 
 volumes:
   npm_data:
