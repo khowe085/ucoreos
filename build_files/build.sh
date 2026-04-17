@@ -28,6 +28,11 @@ net.ipv4.ip_forward = 1
 net.ipv6.conf.all.forwarding = 1
 EOF
 
+cat > /usr/lib/modules-load.d/iptables.conf <<EOF
+iptable_nat
+ip6table_nat
+EOF
+
 cat > /usr/lib/systemd/system/tailscale-firewall-setup.service <<EOF
 [Unit]
 Description=Tailscale firewall masquerade setup
